@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.time.LocalDateTime;
 
 /**
  * Created by michaeldelli-gatti on 6/28/16.
@@ -47,6 +49,20 @@ public class IronGramRestController {
     public Iterable<Photo> getPhotos(HttpSession session){
         String username = (String) session.getAttribute("username");
         User user = users.findFirstByName(username);
+        Iterable<Photo> p = photos.findByRecipient(user);
+        LocalDateTime now = LocalDateTime.now();
+        for (Photo photo: p){
+            if (photo.getDeleteTime() == null) {
+                LocalDateTime d = LocalDateTime.now().plusSeconds(10);
+                photo.setDeleteTime(d);
+                photos.save(photo);
+            }
+            if (now.isAfter(photo.getDeleteTime())) {
+                File f = new File("public/photos/" + photo.getFilename());
+                f.delete();
+                photos.delete(photo);
+            }
+        }
         return photos.findByRecipient(user);
     }
 }

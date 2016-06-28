@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 /**
  * Created by michaeldelli-gatti on 6/28/16.
@@ -50,7 +51,7 @@ public class IronGramController {
         FileOutputStream fos = new FileOutputStream(photoFile);
         fos.write(file.getBytes());
 
-        Photo photo = new Photo(sender, rec, photoFile.getName());
+        Photo photo = new Photo(sender, rec, photoFile.getName(), LocalDateTime.now());
         photos.save(photo);
 
         return "redirect:/";
