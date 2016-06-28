@@ -23,19 +23,23 @@ public class Photo {
     String filename;
 
     @Column(nullable = false)
-    LocalDateTime createdTime;
+    int timer;
 
     @Column
     LocalDateTime deleteTime;
 
+    @Column(nullable = false)
+    boolean isPublic;
+
     public Photo() {
     }
 
-    public Photo(User sender, User recipient, String filename, LocalDateTime createdTime) {
+    public Photo(User sender, User recipient, String filename, int timer, boolean isPublic) {
         this.sender = sender;
         this.recipient = recipient;
         this.filename = filename;
-        this.createdTime = createdTime;
+        this.timer = timer;
+        this.isPublic = isPublic;
     }
 
     public int getId() {
@@ -70,12 +74,12 @@ public class Photo {
         this.filename = filename;
     }
 
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
+    public int getTimer() {
+        return timer;
     }
 
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
+    public void setTimer(int timer) {
+        this.timer = timer;
     }
 
     public LocalDateTime getDeleteTime() {
@@ -84,5 +88,13 @@ public class Photo {
 
     public void setDeleteTime(LocalDateTime deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }

@@ -53,7 +53,7 @@ public class IronGramRestController {
         LocalDateTime now = LocalDateTime.now();
         for (Photo photo: p){
             if (photo.getDeleteTime() == null) {
-                LocalDateTime d = LocalDateTime.now().plusSeconds(10);
+                LocalDateTime d = LocalDateTime.now().plusSeconds(photo.getTimer());
                 photo.setDeleteTime(d);
                 photos.save(photo);
             }
@@ -64,5 +64,9 @@ public class IronGramRestController {
             }
         }
         return photos.findByRecipient(user);
+    }
+    @RequestMapping(path = "/public-photos/?{username}", method = RequestMethod.GET)
+    public Iterable<Photo> getPublicPhotos(){
+        return photos.findByIsPublicTrue();
     }
 }
